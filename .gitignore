@@ -1,3 +1,4 @@
 /upload-files
 /node_modules
 .DS_Store
+/static/image/

@@ -1,47 +1,43 @@
-const Koa = require('koa');
-const app = new Koa();
-const fs = require('fs');
+const Koa = require('koa')
+const views = require('koa-views')
+const path = require('path')
+const convert = require('koa-convert')
+const static = require('koa-static')
+const {uploadFile} = require('./util/upload.js')
 
-function render(page) {
-  return new Promise((resolve,reject)=>{
-    let viewUrl = `./view/${page}`;
-    fs.readFile(viewUrl,'binary',(err,data)=>{
-      if(err) {
-        reject(err)
-      } else {
-        resolve(data)
-      }
-    })
-  })
-}
+const app = new Koa()
 
-async function route(url) {
-  let view = '404.html'
-  console.log(url,'gg url')
-  switch (url) {
-    case '/':
-      view = 'index.html'
-      break;
-    case '/404':
-      view = '404.html'
-      break;
-    case '/todo':
-      view = 'todo.html'
-      break;
-  
-    default:
-      break;
-  }
-  let html = await render(view)
-  return html
-}
+app.use(views(path.join(__dirname,'./view'),{
+  extension: 'ejs'
+}))
+
+const staticPath = './static'
+
+app.use(convert(static(
+  path.join(__dirname, staticPath)
+)))
 
 app.use(async ctx => {
-  let url = ctx.request.url
-  let html = await route(url)
-  ctx.body = html
+  if(ctx.method === 'GET') {
+    let title = 'upload pic async'
+    await ctx.render('index',{
+      title
+    })
+  } else if(ctx.url === '/api/picture/upload.json' && ctx.method === 'POST') {
+    let result = {success: false}
+    let serverFilePath = path.join(__dirname,'static/image')
+
+    result = await uploadFile(ctx, {
+      fileType: 'album',
+      path: serverFilePath
+    })
+    
+    ctx.body = result
+  } else {
+    ctx.body = '<h1>404！！！</h1>'
+  }
 })
 
-app.listen(3000,() => {
-  console.log(`At port 3000`)
-});
+app.listen(3000, ()=>{
+  console.log(`[demo] upload-pic-async is starting at port 3000`)
+})
