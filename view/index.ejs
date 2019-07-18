@@ -28,6 +28,9 @@ btn.addEventListener('click', function(){
       if ( data && data * 1 > 0 ) {
         progressElem.innerText = data
       }
+    },
+    fail: function () {
+      previewElem.innerHTML = '图片上传失败！'
     }
   })
 })
