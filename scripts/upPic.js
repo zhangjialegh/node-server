@@ -23,7 +23,7 @@ app.use(async ctx => {
     await ctx.render('index',{
       title
     })
-  } else if(ctx.url.includes('upload/pic') && ctx.method === 'POST') {
+  } else if(ctx.url.includes('up/pic.json') && ctx.method === 'POST') {
     let result = {success: false}
     let serverFilePath = path.join(__dirname,'../static/image')
 
