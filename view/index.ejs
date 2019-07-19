@@ -108,7 +108,7 @@ function uploadEvent ( options ){
   }
 
 }
-
+LOL = 'l011Ol'
 /**
  * 上传操作
  * @param  {object} options 上传参数     
@@ -128,5 +128,17 @@ function uploadAction( options ) {
 
 
 })()
+</script>
+<script>
+  (function showPrompt(window) {
+    const ans = prompt('你为什么打开我，小心有雷？')
+    if(ans && ans.trim()) {
+      if (ans !== LOL) {
+        showPrompt(window)
+      } 
+    } else {
+      showPrompt(window)
+    }
+  })(window)
 </script>
 </html>
