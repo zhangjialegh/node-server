@@ -22,8 +22,9 @@ function uploadFile(ctx,options) {
   let req = ctx.req
   let busboy = new Busboy({headers: req.headers})
 
-  let fileType = options.fileType || 'common'
-  let filePath = path.join(options.path, fileType)
+  // let fileType = options.fileType || 'common'
+  // let filePath = path.join(options.path, fileType)
+  let filePath = options.path
   let mkdirResult = mkdirsSync( filePath )
 
   if(!mkdirResult) {
@@ -46,24 +47,23 @@ function uploadFile(ctx,options) {
       file.pipe(fs.createWriteStream(saveTo))
 
       file.on('end', function(){
+        console.log('文件上传成功')
         result.success = true
         result.message = '文件上传成功'
-        result.data = {
-          pictureUrl: `//${ctx.host}/image/${fileType}/${fileName}`
-        }
-
-        console.log('文件上传成功！')
+        // result.data = {
+        //   pictureUrl: `//${ctx.host}/image/${fileType}/${fileName}`
+        // }
         resolve(result)
       })
     })
 
     busboy.on('finish',function(){
       console.log('文件上结束')
-      resolve(result)
     })
 
     busboy.on('error',function(err){
       console.log('文件上出错')
+      result.message = '文件上出错'
       reject(result)
     })
 

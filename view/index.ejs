@@ -20,8 +20,9 @@ btn.addEventListener('click', function(){
   uploadAction({
     success: function( result ) {
       console.log( result )
-      if ( result && result.success && result.data && result.data.pictureUrl ) {
-        previewElem.innerHTML = '<img src="'+ result.data.pictureUrl +'" style="max-width: 100%">'
+      if ( result && result.success ) {
+        // previewElem.innerHTML = '<img src="'+ result.data.pictureUrl +'" style="max-width: 100%">'
+        previewElem.innerHTML = `<span style="color: #0f0">${result.message}</span>`
       }
     },
     progress: function( data ) {
@@ -29,8 +30,8 @@ btn.addEventListener('click', function(){
         progressElem.innerText = data
       }
     },
-    fail: function () {
-      previewElem.innerHTML = '图片上传失败！'
+    fail: function (error) {
+      previewElem.innerHTML = `<span style="color: #0f0">${error.message}</span>`
     }
   })
 })
@@ -63,7 +64,6 @@ function requestEvent( options ) {
     let formData = options.formData
     let xhr = new XMLHttpRequest()
     xhr.onreadystatechange = function() {
-
       if ( xhr.readyState === 4 && xhr.status === 200 ) {
         options.success(JSON.parse(xhr.responseText))
       } 
