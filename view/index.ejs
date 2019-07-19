@@ -75,7 +75,7 @@ function requestEvent( options ) {
       let per = Math.floor(100 * loaded / tot) 
       options.progress(per)
     }
-    xhr.open('post', 'upload/pic/up/pic.json')
+    xhr.open('post', '/upload/pic/up/pic.json')
     xhr.send(formData)
   } catch ( err ) {
     options.fail(err)

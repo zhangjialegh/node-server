@@ -46,7 +46,7 @@ class Server {
                let files = await readdir(filePath);
                files = files.map(file => ({
                    name: file,
-                   url: path.join(pathname, file)
+                   url: path.join('/view/static/'+pathname, file)
                }))
                 let html = this.list({
                     title: pathname,
