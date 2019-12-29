@@ -14,7 +14,7 @@
     "raven": "^2.6.4",
     "chalk": "^2.3.2",
     "debug": "^3.1.0",
-    "handlebars": "^4.0.11"
+    "handlebars": "^4.3.0"
   },
   "devDependencies": {
     "mime": "^2.4.4",
